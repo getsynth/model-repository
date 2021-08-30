@@ -7,9 +7,22 @@
     "content": {
         "type": "object",
         "arguments": {
-            "type": "number",
-            "subtype": "u64",
-            "id": {}
+            "type": "string",
+            "faker": {
+                "generator": "bs"
+            }
+        },
+        "id": {
+            "type": "unique",
+            "content": {
+                "type": "number",
+                "subtype": "u64",
+                "range": {
+                    "low": 1,
+                    "high": 1000000,
+                    "step": 1
+                }
+            }
         },
         "body": {
             "type": "null"

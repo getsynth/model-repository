@@ -10,7 +10,7 @@ generator client {
 
 model events {
   ObjectId     Bytes    @id @map("_id") @db.ObjectId @default(dbgenerated()) @unique
-  arguments    Int
+  arguments    String
   body         String?
   created_at   String
   description  String

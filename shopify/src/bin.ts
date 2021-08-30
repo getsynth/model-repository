@@ -16,11 +16,11 @@ router.use(express.json())
 router.get(`/events/:event_id.json`, async (req, res) => {
     const select = selectQuery(req.query.fields as string)
 
-    const result = await prisma.events.findUnique({
+    let result = await prisma.events.findUnique({
         where: {
             id: Number(req.params.event_id)
         },
-        select
+        select,
     })
 
     if (result === null) {
