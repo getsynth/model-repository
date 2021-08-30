@@ -1,9 +1,6 @@
 #!/bin/bash
 
-DB_HOST=127.0.0.1
 DB_PORT=27017
-DB_USER=root
-DB_PASSWORD="mysecretpassword"
 DB_NAME=shopify
 CONTAINER_NAME=mongo-api-mock-backend
 
@@ -20,10 +17,10 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"
 container_id=$(docker run -d --name $CONTAINER_NAME -p $DB_PORT:$DB_PORT mongo)
 
 # 2. Generate Data
-synth generate shopify --to mongodb://localhost:$DB_PORT --size 1000
+synth generate shopify --to mongodb://localhost:$DB_PORT/$DB_NAME --size 1000
 
 # 3. Run API Mock server
-# TODO run server here
+npm install && npm run serve
 
 echo "Server running! Press any key to continue..."
 read

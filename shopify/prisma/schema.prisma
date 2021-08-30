@@ -1,0 +1,23 @@
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://localhost:27017/shopify"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["mongodb"]
+}
+
+model events {
+  ObjectId     Bytes    @id @map("_id") @db.ObjectId @default(dbgenerated()) @unique
+  arguments    Int
+  body         String?
+  created_at   String
+  description  String
+  message      String
+  path         String
+  id           Int?
+  subject_id   Int
+  subject_type String
+  verb         String
+}
