@@ -2,12 +2,37 @@ import { PrismaClient, events } from '@prisma/client'
 import express from 'express'
 import {create} from "domain";
 
+const selectQuery = (fields?: string) => {
+    const entries = fields?.split(",")
+        .map(field => [field, true])
+    return entries === undefined ? undefined : Object.fromEntries(entries)
+}
+
 const prisma = new PrismaClient()
 const app = express()
+const router = express.Router()
+router.use(express.json())
 
-app.use(express.json())
+router.get(`/events/:event_id.json`, async (req, res) => {
+    const select = selectQuery(req.query.fields as string)
 
-app.get(`/events.json`, async (req, res) => {
+    const result = await prisma.events.findUnique({
+        where: {
+            id: Number(req.params.event_id)
+        },
+        select
+    })
+
+    if (result === null) {
+        res.status(404).send()
+    } else {
+        res.json({
+            event: result
+        })
+    }
+})
+
+router.get(`/events.json`, async (req, res) => {
     const limit = Number(req.query.limit || "50")
     if (limit > 250) {
         return res.status(400).send()
@@ -40,9 +65,7 @@ app.get(`/events.json`, async (req, res) => {
         ...filter_where
     }
 
-    const fields = (req.query.fields as string)?.split(",")
-        .map(field => [field, true])
-    const select = fields === undefined ? undefined : Object.fromEntries(fields)
+    const select = selectQuery(req.query.fields as string)
 
     let result: { ObjectId?: string }[] = await prisma.events.findMany({
         where,
@@ -59,6 +82,6 @@ app.get(`/events.json`, async (req, res) => {
     })
 })
 
-const server = app.listen(3000, () =>
+const server = app.use("/admin/api/2021-07", router).listen(3000, () =>
     console.log("Listening at http://localhost:3000")
 )

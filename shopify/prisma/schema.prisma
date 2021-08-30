@@ -16,7 +16,7 @@ model events {
   description  String
   message      String
   path         String
-  id           Int?
+  id           Int?    @unique
   subject_id   Int
   subject_type String
   verb         String
