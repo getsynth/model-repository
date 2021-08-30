@@ -22,13 +22,22 @@ app.get(`/events.json`, async (req, res) => {
 
     // TODO: `created_at_min` `created_at_max` but they are stored as strings
 
-    const verb = req.query.verb
+    const verb = req.query.verb as string
     const verb_where = verb === undefined ? {} : {
-        verb
+        verb: verb
+    }
+
+    const filter = (req.query.filter as string)?.split(",")
+    const filter_where = filter === undefined ? {} : {
+        subject_type: {
+            in: filter
+        }
     }
 
     const where = {
-        ...since_id_where
+        ...since_id_where,
+        ...verb_where,
+        ...filter_where
     }
 
     const fields = (req.query.fields as string)?.split(",")
