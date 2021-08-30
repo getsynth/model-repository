@@ -1,0 +1,95 @@
+{
+    "type": "array",
+    "length": {
+        "type": "number",
+        "constant": 1
+    },
+    "content": {
+        "type": "object",
+        "arguments": {
+            "type": "number",
+            "subtype": "u64",
+            "id": {}
+        },
+        "body": {
+            "type": "null"
+        },
+        "created_at": {
+            "type": "string",
+            "date_time": {
+                "format": "%Y-%m-%dT%H:%M:%S",
+                "subtype": "naive_date_time",
+                "begin": "2015-01-01T00:00:00",
+                "end": "2020-01-01T12:00:00"
+            }
+        },
+        "description": {
+            "type": "string",
+            "pattern": "Received new order"
+        },
+        "message": {
+            "type": "same_as",
+            "ref": "events.content.description"
+        },
+        "subject_id": {
+            "type": "number",
+            "subtype": "u64",
+            "range": {
+                "low": 1000000,
+                "high": 2000000,
+                "step": 1
+            }
+        },
+        "path": {
+            "type": "string",
+            "format": {
+                "format": "/admin/orders/{subject_id}/transactions/#{inc_id}",
+                "arguments": {
+                    "subject_id": {
+                        "type": "string",
+                        "pattern": "[0-9]{5}"
+                    },
+                    "inc_id": {
+                        "type": "string",
+                        "pattern": "[0-9]{4}"
+                    }
+                }
+            }
+        },
+        "subject_type": {
+            "type": "string",
+            "pattern": "Order"
+        },
+        "verb": {
+            "type": "string",
+            "categorical": {
+                "authorization_failure": 1,
+                "authorization_pending": 1,
+                "authorization_success": 1,
+                "cancelled": 1,
+                "capture_failure": 1,
+                "capture_pending": 1,
+                "capture_success": 1,
+                "closed": 1,
+                "confirmed": 1,
+                "fulfillment_cancelled": 1,
+                "fulfillment_pending": 1,
+                "fulfillment_success": 1,
+                "mail_sent": 1,
+                "placed": 1,
+                "re_opened": 1,
+                "refund_failure": 1,
+                "refund_pending": 1,
+                "refund_success": 1,
+                "restock_line_items": 1,
+                "sale_failure": 1,
+                "sale_pending": 1,
+                "sale_success": 1,
+                "update": 1,
+                "void_failure": 1,
+                "void_pending": 1,
+                "void_success": 1
+            }
+        }
+    }
+}
