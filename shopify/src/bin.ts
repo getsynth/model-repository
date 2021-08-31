@@ -16,7 +16,7 @@ router.use(express.json())
 router.get(`/events/:event_id.json`, async (req, res) => {
     const select = selectQuery(req.query.fields as string)
 
-    let result = await prisma.events.findUnique({
+    let result: { ObjectId?: Buffer } | null = await prisma.events.findUnique({
         where: {
             id: Number(req.params.event_id)
         },
@@ -26,6 +26,7 @@ router.get(`/events/:event_id.json`, async (req, res) => {
     if (result === null) {
         res.status(404).send()
     } else {
+        delete result.ObjectId
         res.json({
             event: result
         })
@@ -67,7 +68,7 @@ router.get(`/events.json`, async (req, res) => {
 
     const select = selectQuery(req.query.fields as string)
 
-    let result: { ObjectId?: string }[] = await prisma.events.findMany({
+    let result: { ObjectId?: Buffer }[] = await prisma.events.findMany({
         where,
         take: limit,
         select
