@@ -46,7 +46,19 @@ router.get(`/events.json`, async (req, res) => {
         }
     }
 
-    // TODO: `created_at_min` `created_at_max` but they are stored as strings
+    const created_at_min = req.query.created_at_min as string;
+    const created_at_min_where = created_at_min === undefined ? {} : {
+        created_at: {
+            gte: new Date(created_at_min)
+        }
+    }
+
+    const created_at_max = req.query.created_at_max as string;
+    const created_at_max_where = created_at_max === undefined ? {} : {
+        created_at: {
+            lte: new Date(created_at_max)
+        }
+    }
 
     const verb = req.query.verb as string
     const verb_where = verb === undefined ? {} : {
@@ -63,7 +75,9 @@ router.get(`/events.json`, async (req, res) => {
     const where = {
         ...since_id_where,
         ...verb_where,
-        ...filter_where
+        ...filter_where,
+        ...created_at_min_where,
+        ...created_at_max_where
     }
 
     const select = selectQuery(req.query.fields as string)
