@@ -47,16 +47,11 @@ router.get(`/events.json`, async (req, res) => {
     }
 
     const created_at_min = req.query.created_at_min as string;
-    const created_at_min_where = created_at_min === undefined ? {} : {
-        created_at: {
-            gte: new Date(created_at_min)
-        }
-    }
-
     const created_at_max = req.query.created_at_max as string;
-    const created_at_max_where = created_at_max === undefined ? {} : {
+    const created_at_where = (created_at_min === undefined &&  created_at_max === undefined) ? {} : {
         created_at: {
-            lte: new Date(created_at_max)
+            gte: created_at_min === undefined ? undefined : new Date(created_at_min),
+            lte: created_at_max === undefined ? undefined :new Date(created_at_max)
         }
     }
 
@@ -76,8 +71,7 @@ router.get(`/events.json`, async (req, res) => {
         ...since_id_where,
         ...verb_where,
         ...filter_where,
-        ...created_at_min_where,
-        ...created_at_max_where
+        ...created_at_where
     }
 
     const select = selectQuery(req.query.fields as string)
