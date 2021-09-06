@@ -19,7 +19,7 @@ RUN npm --version
 
 ###### Install Synth ######
 
-RUN curl --proto '=https' --tlsv1.2 -sSL https://sh.getsynth.com | sh -s -- --ci
+RUN curl --proto '=https' --tlsv1.2 -sSL https://sh.getsynth.com | sh
 
 ###### Copy Files ######
 
