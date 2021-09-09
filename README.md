@@ -1,3 +1,7 @@
 # model-repository
 
-This (for now private) repository is here to collect synth data model definitions for various use cases
+This repository is a collection of [synth](https://github.com/getsynth/synth)
+models and mock apis.
+
+To contribute / request additional APIs or changes to existing ones, feel 
+free to open an issue.
