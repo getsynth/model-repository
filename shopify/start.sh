@@ -10,7 +10,7 @@ sleep 5
 echo "generating data to mongodb..."
 
 /root/.local/bin/synth init || exit 1;
-/root/.local/bin/synth generate shopify --to mongodb://localhost:27017/shopify --size 10 || exit 1
+/root/.local/bin/synth generate shopify --to mongodb://localhost:27017/shopify --size 40000 || exit 1
 
 ###### Start Web Server ######
 npm run serve
